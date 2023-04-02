@@ -1,0 +1,463 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <title>第一篇文章 | CODEING</title>
+        <meta name="author" content="YZX" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+        <link rel="icon" href="/images/avatar.jpg" />
+        <script src="https://cdn.staticfile.org/vue/3.2.47/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.3.0/css/all.min.css" />
+<link rel="stylesheet" href="/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.org/highlight.js/11.7.0/highlight.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.org/highlight.js/11.7.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+    <meta name="generator" content="Hexo 5.4.2"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存&ensp;浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+            </transition>
+            <transition name="into">
+            <div id="main" v-show="!loading">
+                <nav id="menu" ref="menu">
+    <div class="desktop-menu">
+        <a class="title" href="/">
+            <span>CODEING</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </div>
+    <div id="mobile-menu">
+        <div class="curtain" v-show="showMenu" @click="showMenu = !showMenu"></div>
+        <div class="title" @click="showMenu = !showMenu">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;CODEING</span>
+        </div>
+        <transition name="slide">
+        <div class="items" v-show="showMenu">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width: 20px; max-width: 50px; width: 10%">
+                        <i class="fa-solid fa-house fa-fw"></i>
+                    </div>
+                    <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                </div>
+            </a>
+            
+            <a href="/about">
+                <div class="item">
+                    <div style="min-width: 20px; max-width: 50px; width: 10%">
+                        <i class="fa-solid fa-id-card fa-fw"></i>
+                    </div>
+                    <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width: 20px; max-width: 50px; width: 10%">
+                        <i class="fa-solid fa-box-archive fa-fw"></i>
+                    </div>
+                    <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                </div>
+            </a>
+            
+            <a href="/categories">
+                <div class="item">
+                    <div style="min-width: 20px; max-width: 50px; width: 10%">
+                        <i class="fa-solid fa-bookmark fa-fw"></i>
+                    </div>
+                    <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                </div>
+            </a>
+            
+            <a href="/tags">
+                <div class="item">
+                    <div style="min-width: 20px; max-width: 50px; width: 10%">
+                        <i class="fa-solid fa-tags fa-fw"></i>
+                    </div>
+                    <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                </div>
+            </a>
+            
+        </div>
+        </transition>
+    </div>
+</nav>
+
+                <div class="article">
+    <div>
+        <h1>第一篇文章</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/4/2
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="异步导出文件"><a href="#异步导出文件" class="headerlink" title="异步导出文件"></a>异步导出文件</h2><p>背景：目前项目存在数据较大无法导出、导出加载时长过长的问题，并且导出期间用户无法操作系统只能等待导出完成。</p>
+<p>技术方案：在不改动原有业务方法实现的基础上，通过aop方法 @Around + @Async 来实现。首先，我们定义一个异步导出的注解@AsyncExport，新增一个切面方法AsyncExportAspect，创建一个@Around方法，通过切面方法我们可以改变原有方法的导出结果，当导出方法加入我们的注解后，客户端请求导出，我们直接把导出结果对象返回给客户端，在通过异步线程来执行原有方法joinPoint.proceed()，获取到原有导出方法返回的二进制流ResponseEntity&lt;byte[]&gt;，把接收到的ResponseEntity&lt;byte[]&gt;转换成MultipartFile，调用文件上传接口上传到文件服务器，最后通过推送ws消息把上传导出文件的结果返回给客户端。</p>
+<pre><code> /**
+ * 异步导出对象
+ */
+public class AsyncExportResult &#123;
+
+/**
+ * 进程KEY
+ * 作为缓存关键字
+ */
+private String threadKey;
+
+/**
+ * 当前导出用户
+ */
+private String userGid;
+
+/**
+ * 当前导出方法
+ */
+private String exportMethod;
+
+/**
+ * 导出时间
+ */
+private Long exportTime;
+
+/**
+ * 导出文件上传服务器返回文件id
+ */
+private String fileId;
+
+/**
+ * 执行耗时
+ */
+private Long execTime;
+
+/**
+ * 进程状态
+ */
+private ExportThreadStatus threadStatus;
+
+/**
+ * 用户gid + 导出方法 作为导出进度消息key
+ */
+private String exportKey;
+&#125;
+</code></pre>
+<p>导出文件进度信息对象</p>
+<pre><code> /**
+ * 导出文件进度信息对象
+ */
+ public class AsyncExportProcessMessage &#123;
+
+/**
+ * 消息说明
+ */
+private String message;
+
+/**
+ * 耗时（秒）
+ */
+private String spendTime;
+
+/**
+ * 进度 百分比
+ */
+private String completeRate;
+
+/**
+ * 导出进程状态
+ */
+private ExportThreadStatus exportThreadStatus;
+
+/**
+ * 进程KEY
+ * 作为缓存关键字
+ */
+private String threadKey;
+
+/**
+ * 用户gid + 导出方法 作为导出进度消息key
+ */
+private String exportKey;
+
+/**
+ * 导出文件上传服务器返回文件id
+ */
+private String fileId;
+</code></pre>
+<p>技术难点：采用线程池来进行实现文件的异步上传，通过实现TaskDecorator来进行父子线程的上下文传递，代码如下。</p>
+<p>RequestContextHolder.getRequestAttributes() 是存储在ThreadLocal<RequestAttributes>里面，ThreadLocal线程变量，是线程隔离的，里面的信息由当前线程独有，想要实现父子线程的上下文传递需要使用到InheritableThreadLocal，通过RequestContextHolder.setRequestAttributes(servletRequestAttributes,true);子线程就能获取到主线程中的数据。</p>
+<pre><code>/**
+ * 导出文件进度信息对象
+ */
+public static class ContextRelayDecorator implements TaskDecorator &#123;
+  
+@NotNull
+@Override
+public Runnable decorate(@NotNull Runnable runnable) &#123;
+    ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    final UserVo loginUser = SessionUtils.getLoginUser();
+    return () -&gt; &#123;
+        if (loginUser != null) &#123;
+            SessionUtils.setLoginUser(loginUser);
+        &#125;
+        RequestContextHolder.setRequestAttributes(servletRequestAttributes,true);
+        runnable.run();
+    &#125;;
+&#125;
+</code></pre>
+<p>}</p>
+<p>然而，代码测试下来发现结果不尽人意，大部分请求，子线程获取到的header信息都是空，从而引申出下一个问题，由于采用的是非阻塞的异步线程，主线程跑完后，主线程Request对象会被销毁，导致子线程无法获取到主线程的信息。对于这个问题网上采用最多的方法是引入Alibaba的工具TransmittableThreadLocal，该类是</p>
+<p>InheritableThreadLocal子类实现，可以解决当主线程结束后，子线程获取主线程数据的问题。</p>
+<pre><code>public static class ContextAsyncDecorator implements TaskDecorator &#123;
+
+        @NotNull
+        @Override
+        public Runnable decorate(@NotNull Runnable runnable) &#123;
+            ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            HttpServletRequest request = servletRequestAttributes.getRequest();
+            AsyncContext asyncContext = request.startAsync();
+            final UserVo loginUser = SessionUtils.getLoginUser();
+            return () -&gt; &#123;
+                try &#123;
+                    if (loginUser != null) &#123;
+                        SessionUtils.setLoginUser(loginUser);
+                    &#125;
+                    RequestContextHolder.setRequestAttributes(servletRequestAttributes, true);
+                    runnable.run();
+                &#125; finally &#123;
+                    asyncContext.complete();
+                &#125;
+            &#125;;
+        &#125;
+    &#125;
+</code></pre>
+<p>再不引入外部工具的基础上，对问题进行进步一探索，发现了一个AsyncContext，测试发现使用request.startAsync()，的确可以实现上下文传递；但是，自测过程中问题又来了，当开启这个异步上下文之后，主线程会被阻塞，只有当子线程完成，主线程才会返回，说白了这个方法没有去解决当主线程结束后，子线程获取不到主线程数据的问题，不适用与我们的实际业务功能。</p>
+<p>归根结底，我们</p>
+<pre><code> /**
+ * 获取异步导出结果
+ */
+ private AsyncExportResult getAsyncExportResult(ProceedingJoinPoint joinPoint, String fileName) &#123;
+ AsyncExportResult asyncExportResult = saveAsyncExportResultToCache(joinPoint);
+ logger.info(&quot;保存异步导出结果&quot;);
+ asyncExportContext.saveAsyncExportResult(asyncExportResult);
+ logger.info(&quot;保存异步导出线程key&quot;);
+ asyncExportContext.saveAsyncExportThreadKeyToCache(asyncExportResult);
+ Map&lt;String, Object&gt; requestParams = new HashMap&lt;&gt;();
+ try &#123;
+    requestParams = getRequestParams(joinPoint);
+ &#125; catch (UnsupportedEncodingException e) &#123;
+    e.printStackTrace();
+ &#125;
+ asyncExportContext.asyncProceed(asyncExportResult, joinPoint, fileName, requestParams);
+ return asyncExportResult;
+ &#125;
+
+
+
+
+
+ private Map&lt;String, Object&gt; getRequestParams(ProceedingJoinPoint joinPoint) throws UnsupportedEncodingException &#123;
+ Map&lt;String, Object&gt; requestParams = new HashMap&lt;&gt;();
+ // 获取请求信息
+ final ServletRequestAttributes requestAttributes = (ServletRequestAttributes)  RequestContextHolder.getRequestAttributes();
+ final HttpServletRequest request = requestAttributes.getRequest();
+ requestParams.put(&quot;url&quot;, request.getRequestURL());
+ requestParams.put(&quot;uri&quot;, request.getRequestURI());
+ // 获取请求头信息,需要注意的是，请求头中的key都会转成小写
+ Enumeration&lt;String&gt; enumeration = request.getHeaderNames();
+ JSONObject headers = new JSONObject();
+ while (enumeration.hasMoreElements()) &#123;
+    String name = enumeration.nextElement();
+    String value = request.getHeader(name);
+    headers.put(name, value);
+ &#125;
+ requestParams.put(&quot;headers&quot;, headers);
+ //获取请求的方法
+ String method = request.getMethod();
+ requestParams.put(&quot;method&quot;, method);
+ String params = null;
+ if (HttpMethod.GET.toString().equals(method)) &#123;
+    String queryString = request.getQueryString();
+    StringBuilder sb = new StringBuilder();
+    if (StringUtils.isNotBlank(queryString)) &#123;
+        sb.append(URLDecoder.decode(queryString, &quot;UTF-8&quot;));
+        params = sb.toString();
+    &#125;
+ &#125; else &#123;
+    Object[] paramsArray = joinPoint.getArgs();
+    if (paramsArray != null &amp;&amp; paramsArray.length &gt; 0) &#123;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i &lt; paramsArray.length; i++) &#123;
+            if (paramsArray[i] instanceof Serializable || paramsArray[i] instanceof RequestFacade) &#123;
+                sb.append(JSON.toJSONString(paramsArray[i]));
+                params = sb.toString();
+            &#125;
+        &#125;
+    &#125;
+ &#125;
+ logger.info(&quot;&gt;&gt;&gt;&gt;&gt;&gt;uri: &#123;&#125;,method: &#123;&#125;&quot;, request.getRequestURI(), method);
+ logger.info(&quot;&gt;&gt;&gt;&gt;&gt;&gt;headers: &#123;&#125;&quot;, headers);
+ logger.info(&quot;&gt;&gt;&gt;&gt;&gt;&gt;params: &#123;&#125;&quot;, params);
+ requestParams.put(&quot;params&quot;, params);
+ return requestParams;
+ &#125;
+
+
+
+  void asyncProceed(AsyncExportResult asyncExportResult, ProceedingJoinPoint joinPoint, String fileName, Map&lt;String, Object&gt; requestParams);
+
+
+
+  @Override
+  @Async(&quot;AsyncExportThreadPoolConfig&quot;)
+ public void asyncProceed(AsyncExportResult asyncExportResult, ProceedingJoinPoint joinPoint, String fileName, Map&lt;String, Object&gt; requestParams) &#123;
+    long exportStart = System.currentTimeMillis();
+    final String uri = (String) requestParams.get(&quot;uri&quot;);
+    final String method = (String) requestParams.get(&quot;method&quot;);
+    final String params = (String) requestParams.get(&quot;params&quot;);
+    ResponseEntity&lt;byte[]&gt; responseEntity = null;
+    if (HttpMethod.GET.toString().equals(method)) &#123;
+        commonMappServer.doGetReturnCommonResult(uri, params);
+    &#125; else &#123;
+        final Object o = JSON.parseObject(params, Object.class);
+        CommonResult commonResult =  commonMappServer.doPostReturnCommonResult(uri, o);
+    &#125;
+ //        ResponseEntity&lt;byte[]&gt; responseEntity = (ResponseEntity&lt;byte[]&gt;) AsyncExportUtil.proceed(joinPoint);
+    logger.info(&quot;开始进行文件上传&quot;);
+    FileUploadRecordVo fileUploadRecordVo = uploadExportFile(responseEntity, fileName);
+    logger.info(&quot;文件上传完成&quot;);
+    long exportEnd = System.currentTimeMillis();
+    asyncExportResult.setExecTime(exportEnd - exportStart);
+    asyncExportResult.setFileId(fileUploadRecordVo.getGid());
+    asyncExportResult.setThreadStatus(ExportThreadStatus.COMPLETED);
+    saveAsyncExportResult(asyncExportResult);
+    AsyncExportProcessMessage message = new AsyncExportProcessMessage(&quot;导出已完成&quot;, Long.toString(((exportEnd - exportStart) / 1000)), &quot;100%&quot;, ExportThreadStatus.COMPLETED);
+    message.setFileId(fileUploadRecordVo.getGid());
+    AsyncExportProcessMessageUtils.saveAsyncExportProgressMessage(message);
+ &#125;
+
+
+
+ @Autowired
+ public void setCommonMappServer(EcpMappServer commonMappServer) &#123;
+  this.commonMappServer = commonMappServer;
+ &#125;
+
+
+ private EcpMappServer commonMappServer;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+                <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2023 CODEING
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;YZX
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/argvchs/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+            </div>
+            </transition>
+            
+            <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+            </transition>
+            
+        </div>
+        <script src="/js/main.js"></script>
+        
+        
+
+
+
+
+        
+    </body>
+</html>
